@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ToDo</title>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    ToDo アプリ
+
+    <br />
+    <span id="numOfCompletedTasks"></span>/<span id="numOfTasks"></span>
+    <form
+      onSubmit="addTask(task_name.value, task_due_date.value); event.preventDefault();"
+    >
+      <span id="inputform">
+        <input
+          name="task_name"
+          type="text"
+          placeholder="登録したいタスクを入力..."
+        />
+        <input name="task_due_date" type="date" />
+        <input type="submit" value="登録" />
+      </span>
+    </form>
+
+    <ul></ul>
+  </body>
+</html>
