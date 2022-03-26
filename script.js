@@ -1,4 +1,6 @@
 let taskListElem; // どこからでも読み書きできるように外側に変数を移動
+let taskUpElem;
+let taskDownElem;
 
 // タスクの連想配列の配列
 let tasks = [];
@@ -82,21 +84,13 @@ function renderTasks() {
     tasklastDateElem.style.fontStyle = "italic";
     tasklastDateElem.style.marginLeft = "1rem";
 
-    // タスクを一つ上に並べ替える機能
-    let taskUpElem = document.createElement("span");
-    taskUpElem.addEventListener("click", function () {
-      //tasks.splice(task - 1, 2, tasks[task], tasks[task - 1]);
-      console.log("Up");
-    });
+    // タスクを一つ上に並び替えるボタン
+    taskUpElem = document.createElement("button");
     taskUpElem.innerText = "↑";
     taskUpElem.style.marginLeft = "1rem";
 
     // タスクを一つ下に並べ替える機能
-    let taskDownElem = document.createElement("span");
-    taskDownElem.addEventListener("click", function () {
-      //tasks.splice(task, 2, tasks[task + 1], tasks[task]);
-      console.log("Down");
-    });
+    taskDownElem = document.createElement("button");
     taskDownElem.innerText = "↓";
     taskDownElem.style.marginLeft = "0.5rem";
 
@@ -109,12 +103,36 @@ function renderTasks() {
     // リストに対し、項目を追加
     taskListElem.appendChild(taskElem);
 
-    // 項目の右にタスクを一つ上に並び替えるボタンを追加
+    // 項目の下にタスクを一つ上に並び替えるボタンを追加
     taskListElem.appendChild(taskUpElem);
 
-    // 項目の右にタスクを一つ上に並び替えるボタンを追加
+    // 項目の下にタスクを一つ下に並び替えるボタンを追加
     taskListElem.appendChild(taskDownElem);
   }
+
+  // タスクを一つ上に並び替える機能
+  taskUpElem.addEventListener("click", function () {
+    console.log(tasks.indexOf(taskUpElem.parentNode));
+    tasks.splice(
+      tasks.indexOf(taskUpElem.parentNode) - 1,
+      2,
+      tasks[tasks.indexOf(taskUpElem.parentNode)],
+      tasks[tasks.indexOf(taskUpElem.parentNode) - 1]
+    );
+    console.log("Up");
+  });
+
+  // タスクを一つ下に並び替える機能
+  taskDownElem.addEventListener("click", function () {
+    console.log(tasks.indexOf(taskDownElem.parentNode));
+    tasks.splice(
+      tasks.indexOf(taskUpElem.parentNode),
+      2,
+      tasks[tasks.indexOf(taskUpElem.parentNode) + 1],
+      tasks[tasks.indexOf(taskUpElem.parentNode)]
+    );
+    console.log("Down");
+  });
 
   // 全タスクの件数を更新
   let numOfTasksElem = document.querySelector("#numOfTasks");
