@@ -82,6 +82,24 @@ function renderTasks() {
     tasklastDateElem.style.fontStyle = "italic";
     tasklastDateElem.style.marginLeft = "1rem";
 
+    // タスクを一つ上に並べ替える機能
+    let taskUpElem = document.createElement("span");
+    taskUpElem.addEventListener("click", function () {
+      //tasks.splice(task - 1, 2, tasks[task], tasks[task - 1]);
+      console.log("Up");
+    });
+    taskUpElem.innerText = "↑";
+    taskUpElem.style.marginLeft = "1rem";
+
+    // タスクを一つ下に並べ替える機能
+    let taskDownElem = document.createElement("span");
+    taskDownElem.addEventListener("click", function () {
+      //tasks.splice(task, 2, tasks[task + 1], tasks[task]);
+      console.log("Down");
+    });
+    taskDownElem.innerText = "↓";
+    taskDownElem.style.marginLeft = "0.5rem";
+
     // 項目に対し、期限表示を追加
     taskElem.appendChild(taskDueDateElem);
 
@@ -90,6 +108,12 @@ function renderTasks() {
 
     // リストに対し、項目を追加
     taskListElem.appendChild(taskElem);
+
+    // 項目の右にタスクを一つ上に並び替えるボタンを追加
+    taskListElem.appendChild(taskUpElem);
+
+    // 項目の右にタスクを一つ上に並び替えるボタンを追加
+    taskListElem.appendChild(taskDownElem);
   }
 
   // 全タスクの件数を更新
@@ -102,20 +126,21 @@ function renderTasks() {
 }
 
 function addTask(taskName, taskDueDate) {
-  //同名のタスクが無いか確認
-  if (!checkTaskSameNameExists(taskName)) {
-    // 配列に対し、項目を追加
-    tasks.push({
-      name: taskName,
-      dueDate: taskDueDate,
-      isCompleted: false,
-    });
-
-    // LocalSWtrage へ配列を保存
-    saveTasks();
-    // 配列からリストを再出力
-    renderTasks();
+  //同名のタスクがある場合アラートを出して終了
+  if (checkTaskSameNameExists(taskName)) {
+    alert("すでに同名のタスクがあります！");
+    return;
   }
+  // 配列に対し、項目を追加
+  tasks.push({
+    name: taskName,
+    dueDate: taskDueDate,
+    isCompleted: false,
+  });
+  // LocalStrage へ配列を保存
+  saveTasks();
+  // 配列からリストを再出力
+  renderTasks();
   document.querySelector("#inputform").reset();
 }
 
@@ -167,8 +192,6 @@ function saveTasks() {
 function checkTaskSameNameExists(taskName) {
   for (let task of tasks) {
     if (task.name == taskName) {
-      // 同名のタスクがある場合、アラートを出す
-      alert("すでに同名のタスクがあります！");
       return true;
     }
   }
